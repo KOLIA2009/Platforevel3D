@@ -70,21 +70,21 @@
     renderer.setClearColor(0x87CEEB, 1);
     document.body.appendChild(renderer.domElement);
 
-    // Пол
+    
     const planeGeometry = new THREE.PlaneGeometry(100, 100);
     const planeMaterial = new THREE.MeshLambertMaterial({ color: 0x228B22 });
     const plane = new THREE.Mesh(planeGeometry, planeMaterial);
     plane.rotation.x = -Math.PI / 2;
     scene.add(plane);
 
-    // Свет
+    
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(5, 10, 7);
     scene.add(directionalLight);
 
-    // Дом
+    
     const houseWidth = 2;
     const houseHeight = 2;
     const houseDepth = 2;
@@ -95,14 +95,13 @@
     house.position.set(0, houseHeight / 2, 0);
     scene.add(house);
 
-    // Ключ — красный куб
+    
     const keyGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
     const keyMaterial = new THREE.MeshLambertMaterial({ color: 0xff0000 });
     const key = new THREE.Mesh(keyGeometry, keyMaterial);
     key.position.set(10, 0.25, -10);
     scene.add(key);
 
-    // Белая комната (спасибо за игру)
     const roomGeometry = new THREE.BoxGeometry(6, 4, 6);
     const roomMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.BackSide });
     const whiteRoom = new THREE.Mesh(roomGeometry, roomMaterial);
@@ -110,7 +109,6 @@
     whiteRoom.visible = false;
     scene.add(whiteRoom);
 
-    // Текст "Спасибо за игру"
     const canvas = document.createElement('canvas');
     canvas.width = 512;
     canvas.height = 256;
@@ -129,12 +127,10 @@
     textPlane.visible = false;
     scene.add(textPlane);
 
-    // Состояния
     let hasKey = false;
     let insideRoom = false;
     let inThankYouRoom = false;
 
-    // Управление
     const keysPressed = {};
     document.addEventListener('keydown', e => {
       keysPressed[e.key.toLowerCase()] = true;
@@ -157,7 +153,6 @@
       keysPressed[e.key.toLowerCase()] = false;
     });
 
-    // Повороты камеры
     let yaw = 0;
     let pitch = 0;
     let isPointerLocked = false;
@@ -180,7 +175,6 @@
       }
     });
 
-    // Коллизия с домом (не дает пройти внутрь если не вошел)
     function checkCollisionOutside(newX, newZ) {
       const margin = 0.5;
       const minX = house.position.x - houseWidth / 2 - margin;
@@ -193,7 +187,6 @@
       return !(newX > minX && newX < maxX && newZ > minZ && newZ < maxZ);
     }
 
-    // Телепорт при выходе за границы карты (±50)
     function checkOutOfBounds(x, z) {
       const limit = 50;
       return (x < -limit || x > limit || z < -limit || z > limit);
@@ -209,7 +202,6 @@
       whiteRoom.visible = true;
       textPlane.visible = true;
 
-      // Телепорт камеры в центр белой комнаты
       camera.position.set(0, 2, 0);
       yaw = 0;
       pitch = 0;
@@ -217,7 +209,6 @@
 
       document.getElementById('info').textContent = 'Спасибо за игру!';
 
-      // Запретить ходить дальше (можно убрать обработку клавиш)
       keysPressed['w'] = false;
       keysPressed['a'] = false;
       keysPressed['s'] = false;
@@ -231,9 +222,8 @@
       camera.lookAt(targetX, targetY, targetZ);
     }
 
-    // Raycaster для наведения
     const raycaster = new THREE.Raycaster();
-    const mouseVector = new THREE.Vector2(0, 0); // центр экрана
+    const mouseVector = new THREE.Vector2(0, 0);
 
     function getIntersects() {
       raycaster.setFromCamera(mouseVector, camera);
@@ -244,7 +234,6 @@
       requestAnimationFrame(animate);
 
       if (inThankYouRoom) {
-        // не даём двигаться дальше в конце игры
         updateLookAt();
         renderer.render(scene, camera);
         return;
