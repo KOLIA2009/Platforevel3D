@@ -209,10 +209,10 @@
 
       document.getElementById('info').textContent = 'Спасибо за игру!';
 
-      keysPressed['w'] = false;
-      keysPressed['a'] = false;
       keysPressed['s'] = false;
       keysPressed['d'] = false;
+      keysPressed['w'] = false;
+      keysPressed['a'] = false;
     }
 
     function updateLookAt() {
@@ -243,19 +243,19 @@
       let newX = camera.position.x;
       let newZ = camera.position.z;
 
-      if (keysPressed['w']) {
+      if (keysPressed['s']) {
         newX -= Math.sin(yaw) * moveSpeed;
         newZ -= Math.cos(yaw) * moveSpeed;
       }
-      if (keysPressed['s']) {
+      if (keysPressed['w']) {
         newX += Math.sin(yaw) * moveSpeed;
         newZ += Math.cos(yaw) * moveSpeed;
       }
-      if (keysPressed['a']) {
+      if (keysPressed['d']) {
         newX -= Math.cos(yaw) * moveSpeed;
         newZ += Math.sin(yaw) * moveSpeed;
       }
-      if (keysPressed['d']) {
+      if (keysPressed['a']) {
         newX += Math.cos(yaw) * moveSpeed;
         newZ -= Math.sin(yaw) * moveSpeed;
       }
